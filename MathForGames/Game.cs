@@ -117,17 +117,15 @@ namespace MathForGames
             Scene scene1 = new Scene();
             Scene scene2 = new Scene();
             Actor actor = new Actor(5, 5, Color.GREEN, 'o', ConsoleColor.Green);
-            Enemy enemy = new Enemy(10, 10, Color.GREEN, ' ', ConsoleColor.Green);
-            Player player = new Player(10, 10, Color.PURPLE, ' ', ConsoleColor.Red);
+            Enemy enemy = new Enemy(1, 1, Color.GREEN, ' ', ConsoleColor.Green);
+            Player player = new Player(5, 5, Color.PURPLE, ' ', ConsoleColor.Red);
             player.SetTranslate(new Vector2(10, 10));
-            player.SetRotation(1);
-            player.SetScale(2, 3);
-            player.AddChild(actor, player);
+            //player.AddChild(actor, player);
             enemy.Target = player;
             scene1.AddActor(actor);
             scene1.AddActor(enemy);
             scene1.AddActor(player);
-
+            
             scene2.AddActor(player);
 
             int startingSceneIndex = 0;
@@ -143,9 +141,11 @@ namespace MathForGames
         //Called every frame.
         public void Update(float deltaTime)
         {
+            
             if (!_scenes[_currentSceneIndex].Started)
                 _scenes[_currentSceneIndex].Start();
             _scenes[_currentSceneIndex].Update(deltaTime);
+            
         }
 
         //Used to display objects and other info on the screen.

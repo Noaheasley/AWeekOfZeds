@@ -23,7 +23,7 @@ namespace MathForGames
         protected Actor _parent;
         protected Actor[] _children = new Actor[0];
         //protected float _rotationAngle;
-        //private float _collisionRadius;
+        private float _collisionRadius;
 
         public bool Started { get; private set; }
 
@@ -82,7 +82,7 @@ namespace MathForGames
             LocalPosition = new Vector2(x, y);
             _velocity = new Vector2();
             _color = color;
-            _sprite = new Sprite("Images");
+            _sprite = new Sprite("AWZ_Sprites");
         }
         public Actor(float x, float y, Color raycolor, char icon = ' ', ConsoleColor color = ConsoleColor.White)
         {
@@ -92,7 +92,7 @@ namespace MathForGames
             LocalPosition = new Vector2(x, y);
             _velocity = new Vector2();
             _color = color;
-            _sprite = new Sprite("Images");
+            _sprite = new Sprite("AWZ_Sprites");
         }
 
         public void AddChild(Actor child, Actor parent)
@@ -184,12 +184,18 @@ namespace MathForGames
 
         public bool CheckCollision(Actor other)
         {
-
+            if(other.LocalPosition == other.LocalPosition)
+            {
+                return true;
+            }
             return false;
         }
         public virtual void OnCollision(Actor other)
         {
-
+            if(CheckCollision(other) == true)
+            {
+                
+            }
         }
         public virtual void Update(float deltaTime)
         {
@@ -201,8 +207,6 @@ namespace MathForGames
 
         public virtual void Draw()
         {
-
-
             Raylib.DrawText(_icon.ToString(), (int)(WorldPosition.X * 32), (int)(WorldPosition.Y * 32), 20, _rayColor);
             Raylib.DrawLine(
                 (int)(WorldPosition.X * 32),

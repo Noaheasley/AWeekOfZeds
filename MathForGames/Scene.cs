@@ -20,9 +20,13 @@ namespace MathForGames
             _actors = new Actor[0];
         }
 
-        private void CheckCollision()
+        private void CheckCollision(Actor other)
         {
-
+            
+            if(other.CheckCollision(other) == true)
+            {
+                RemoveActor(other);
+            }
         }
         public void AddActor(Actor actor)
         {
