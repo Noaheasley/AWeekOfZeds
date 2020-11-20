@@ -10,23 +10,27 @@ namespace MathForGames
     {
         private Actor _target;
         private Color _alertColor;
+        private float _money;
+        
 
         public Actor Target
         {
             get { return _target; }
             set { _target = value; }
         }
-        public Enemy(float x, float y, char icon = ' ', ConsoleColor color = ConsoleColor.White)
-            : base(x, y, icon, color)
+        public Enemy(float x, float y, float moneyVal, char icon = ' ', ConsoleColor color = ConsoleColor.White)
+            : base(x, y, moneyVal, icon, color)
         {
             _sprite = new Sprite("AWZ_Sprites/Zed.png");
+            _collisionRadius = 1;
         }
 
-        public Enemy(float x, float y, Color raycolor, char icon = ' ', ConsoleColor color = ConsoleColor.White)
-            : base(x, y, raycolor, icon, color)
+        public Enemy(float x, float y, float moneyVal, Color raycolor, char icon = ' ', ConsoleColor color = ConsoleColor.White)
+            : base(x, y, moneyVal, raycolor, icon, color)
         {
             _sprite = new Sprite("AWZ_Sprites/Zed.png");
             _alertColor = Color.RED;
+            _collisionRadius = 1;
         }
 
         public bool GetTargetInSight(float maxAngle, float maxDistance)
@@ -43,6 +47,20 @@ namespace MathForGames
 
 
             return false;
+        }
+
+        public void TrackTargetInSight()
+        {
+
+        }
+
+        public override void OnCollision(Actor other)
+        {
+            if(other is Player)
+            {
+                _isDead = true;
+            }
+            base.OnCollision(other);
         }
 
         public override void Update(float deltaTime)

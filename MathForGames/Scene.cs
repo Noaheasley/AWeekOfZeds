@@ -20,12 +20,18 @@ namespace MathForGames
             _actors = new Actor[0];
         }
 
-        private void CheckCollision(Actor other)
+        private void CheckCollision()
         {
-            
-            if(other.CheckCollision(other) == true)
+            for (int i = 0; i < _actors.Length; i++)
             {
-                RemoveActor(other);
+                for (int j = 0; j < _actors.Length; j++)
+                {
+                    if (i >= _actors.Length)
+                        break;
+
+                    if (_actors[i].CheckCollision(_actors[j]) && i != j)
+                        _actors[i].OnCollision(_actors[j]);
+                }
             }
         }
         public void AddActor(Actor actor)
@@ -122,7 +128,12 @@ namespace MathForGames
             for (int i = 0; i < _actors.Length; i++)
             {
                 if (!_actors[i].Started)
+                {
                     _actors[i].Start();
+                }
+                
+
+                    
 
                 _actors[i].Update(deltaTime);
             }
@@ -134,6 +145,7 @@ namespace MathForGames
             {
                 _actors[i].Draw();
             }
+            CheckCollision();
         }
 
         public virtual void End()

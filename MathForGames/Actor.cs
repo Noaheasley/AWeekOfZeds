@@ -1,5 +1,6 @@
 ﻿using MathLibrary;
 using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Text;
 using Raylib_cs;
@@ -21,20 +22,19 @@ namespace MathForGames
         protected ConsoleColor _color;
         protected Color _rayColor;
         protected Actor _parent;
+        public bool _isDead = false;
         protected Actor[] _children = new Actor[0];
-        //protected float _rotationAngle;
-        private float _collisionRadius;
+        private float _health = 1;
+        private string _name = "no_name";
+        protected float _damage = 1;
+        public float _money = 10;
+        public float _collisionRadius;
 
         public bool Started { get; private set; }
 
         public Vector2 Forward
         {
             get { return new Vector2(_localTransform.m11, _localTransform.m21); }
-            //set
-            //{
-            //    _transform.m11 = value.X;
-            //    _transform.m21 = value.Y;
-            //}
         }
 
         public Vector2 WorldPosition
@@ -74,8 +74,12 @@ namespace MathForGames
         }
 
 
-        public Actor(float x, float y, char icon = ' ', ConsoleColor color = ConsoleColor.White)
+        public Actor(float x, float y, string nameVal, float healthVal, float damageVal, float moneyVal, char icon = ' ', ConsoleColor color = ConsoleColor.White)
         {
+            _name = nameVal;
+            _health = healthVal;
+            _damage = damageVal;
+            _money = moneyVal;
             _rayColor = Color.WHITE;
             _icon = icon;
             _localTransform = new Matrix3();
@@ -84,8 +88,12 @@ namespace MathForGames
             _color = color;
             _sprite = new Sprite("AWZ_Sprites");
         }
-        public Actor(float x, float y, Color raycolor, char icon = ' ', ConsoleColor color = ConsoleColor.White)
+        public Actor(float x, float y, string nameVal, float healthVal, float damageVal, float moneyVal, Color raycolor, char icon = ' ', ConsoleColor color = ConsoleColor.White)
         {
+            _name = nameVal;
+            _health = healthVal;
+            _damage = damageVal;
+            _money = moneyVal;
             _rayColor = raycolor;
             _icon = icon;
             _localTransform = new Matrix3();
@@ -140,6 +148,73 @@ namespace MathForGames
             return childRemoved;
         }
 
+        public string GetName()
+        {
+            return _name;
+        }
+        public float GetDamage()
+        {
+            return _damage;
+        }
+
+        public virtual float TakeDamage(float damageVal)
+        {
+            _health -= damageVal;
+            if(_health < 0)
+            {
+                _health = 0;
+            }
+            return damageVal;
+        }
+
+        public virtual float Attack(Actor actor)
+        {
+            return actor.TakeDamage(_damage);
+        }
+        public virtual void Save(StreamWriter writer)
+        {
+            writer.WriteLine(_name);
+            writer.WriteLine(_health);
+            writer.WriteLine(_damage);
+            writer.WriteLine(_money);
+        }
+
+        public virtual bool Load(StreamReader reader)
+        {
+            if(File.Exists("SavedData.txt") == false)
+            {
+                return false;
+            }
+            string name = reader.ReadLine();
+            float health = 0;
+            float damage = 0;
+
+            if(float.TryParse(reader.ReadLine(), out health) == false)
+            {
+                return false;
+            }
+            if(float.TryParse(reader.ReadLine(), out damage) == false)
+            {
+                return false;
+            }
+
+            _name = name;
+            _damage = damage;
+            _health = health;
+            return true;
+        }
+
+        public bool GetIsAlive()
+        {
+            return _health > 0;
+        }
+
+        public bool GetIsAlive(bool Alive = false)
+        {
+            return _health <= 0;
+        }
+
+
         public void SetTranslate(Vector2 position)
         {
             _translation = Matrix3.CreateTranslation(position);
@@ -150,6 +225,7 @@ namespace MathForGames
             _rotation = Matrix3.CreateRotation(radians);
         }
 
+        
         public void Rotate(float radians)
         {
             _rotation *= Matrix3.CreateRotation(radians);
@@ -184,18 +260,12 @@ namespace MathForGames
 
         public bool CheckCollision(Actor other)
         {
-            if(other.LocalPosition == other.LocalPosition)
-            {
-                return true;
-            }
-            return false;
+            float distance = (other.WorldPosition - WorldPosition).Magnitude;
+            return distance <= other._collisionRadius + _collisionRadius;
         }
         public virtual void OnCollision(Actor other)
         {
-            if(CheckCollision(other) == true)
-            {
-                
-            }
+           
         }
         public virtual void Update(float deltaTime)
         {

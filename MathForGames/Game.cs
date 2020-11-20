@@ -7,12 +7,24 @@ using System.Threading;
 using Raylib_cs;
 namespace MathForGames
 {
+    struct Item
+    {
+        public int _statBoost;
+        public int _cost;
+        public string _name;
+    }
     class Game
     {
         private static bool _gameOver = false;
         private static Scene[] _scenes;
         private static int _currentSceneIndex;
-
+        private Item _knife;
+        private Item _pistol;
+        private Item _shotgun;
+        private Item[] _shopInv;
+        private Player _player;
+        private Scene _scene;
+        
         public static int CurrentSceneIndex
         {
             get
@@ -114,25 +126,25 @@ namespace MathForGames
             Raylib.InitWindow(1024, 760, "Math for games");
             Raylib.SetTargetFPS(60);
 
-            Scene scene1 = new Scene();
+            _scene = new Scene();
             Scene scene2 = new Scene();
             Actor actor = new Actor(5, 5, Color.GREEN, 'o', ConsoleColor.Green);
             Enemy enemy = new Enemy(1, 1, Color.GREEN, ' ', ConsoleColor.Green);
-            Player player = new Player(5, 5, Color.PURPLE, ' ', ConsoleColor.Red);
-            player.SetTranslate(new Vector2(10, 10));
+            _player = new Player(5, 5, Color.PURPLE, ' ', ConsoleColor.Red);
+            _player.SetTranslate(new Vector2(10, 10));
             //player.AddChild(actor, player);
-            enemy.Target = player;
-            scene1.AddActor(actor);
-            scene1.AddActor(enemy);
-            scene1.AddActor(player);
+            enemy.Target = _player;
+            _scene.AddActor(actor);
+            _scene.AddActor(enemy);
+            _scene.AddActor(_player);
             
-            scene2.AddActor(player);
+            scene2.AddActor(_player);
 
             int startingSceneIndex = 0;
 
-            startingSceneIndex = AddScene(scene1);
+            startingSceneIndex = AddScene(_scene);
             AddScene(scene2);
-            player.Speed = 5;
+            _player.Speed = 5;
 
             SetCurrentScene(startingSceneIndex);
         }
@@ -145,7 +157,6 @@ namespace MathForGames
             if (!_scenes[_currentSceneIndex].Started)
                 _scenes[_currentSceneIndex].Start();
             _scenes[_currentSceneIndex].Update(deltaTime);
-            
         }
 
         //Used to display objects and other info on the screen.
@@ -174,14 +185,19 @@ namespace MathForGames
         {
             Start();
 
-            while (!_gameOver || !Raylib.WindowShouldClose())
+            while (_gameOver = false || !Raylib.WindowShouldClose())
             {
                 float deltaTime = Raylib.GetFrameTime();
                 Update(deltaTime);
                 Draw();
+                if (_player._isDead == true)
+                {
+                    SetGameOver(true);
+                    break;
+                }
                 while (Console.KeyAvailable)
                     Console.ReadKey(true);
-
+                
             }
 
             End();
