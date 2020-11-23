@@ -18,15 +18,15 @@ namespace MathForGames
             get { return _target; }
             set { _target = value; }
         }
-        public Enemy(float x, float y, float moneyVal, char icon = ' ', ConsoleColor color = ConsoleColor.White)
-            : base(x, y, moneyVal, icon, color)
+        public Enemy(float x, float y, string nameVal, float healthVal, float damageVal ,float moneyVal, char icon = ' ', ConsoleColor color = ConsoleColor.White)
+            : base(x, y,nameVal , healthVal, damageVal, moneyVal, icon, color)
         {
             _sprite = new Sprite("AWZ_Sprites/Zed.png");
             _collisionRadius = 1;
         }
 
-        public Enemy(float x, float y, float moneyVal, Color raycolor, char icon = ' ', ConsoleColor color = ConsoleColor.White)
-            : base(x, y, moneyVal, raycolor, icon, color)
+        public Enemy(float x, float y, string nameVal, float healthVal, float damageVal, float moneyVal, Color raycolor, char icon = ' ', ConsoleColor color = ConsoleColor.White)
+            : base(x, y, nameVal,healthVal,damageVal,moneyVal, raycolor, icon, color)
         {
             _sprite = new Sprite("AWZ_Sprites/Zed.png");
             _alertColor = Color.RED;
@@ -59,6 +59,10 @@ namespace MathForGames
             if(other is Player)
             {
                 _isDead = true;
+            }
+            else if (other is Interactable)
+            {
+                _interacted = true;
             }
             base.OnCollision(other);
         }

@@ -7,24 +7,22 @@ using System.Threading;
 using Raylib_cs;
 namespace MathForGames
 {
-    struct Item
-    {
-        public int _statBoost;
-        public int _cost;
-        public string _name;
-    }
+   
     class Game
     {
         private static bool _gameOver = false;
         private static Scene[] _scenes;
         private static int _currentSceneIndex;
+
         private Item _knife;
         private Item _pistol;
         private Item _shotgun;
-        private Item[] _shopInv;
-        private Player _player;
+
+        private Enemy _enemy = new Enemy(1, 1, "ZED", 1, 1, 5, Color.GREEN, ' ', ConsoleColor.Green);
+        private Player _player = new Player(5, 5,"Player",1,1,10, Color.PURPLE, ' ', ConsoleColor.Red);
         private Scene _scene;
-        
+        private Interactable shopOwner = new Interactable(5, 10, "Shop", 1, 1, 1, Color.GOLD, 'S', ConsoleColor.Yellow);
+
         public static int CurrentSceneIndex
         {
             get
@@ -32,6 +30,7 @@ namespace MathForGames
                 return _currentSceneIndex;
             }
         }
+        
         public static ConsoleColor DefaultColor { get; set; } = ConsoleColor.White;
 
         public static Scene GetScenes(int index)
@@ -44,18 +43,19 @@ namespace MathForGames
             return _scenes[_currentSceneIndex];
         }
 
-
         public static bool GetKeyDown(int key)
         {
             bool testbool = true;
             int test = Convert.ToInt32(testbool);
             return Raylib.IsKeyDown((KeyboardKey)key);
         }
+
         public static bool GetKeyPressed(int key)
         {
 
             return Raylib.IsKeyPressed((KeyboardKey)key);
         }
+
         public static int AddScene(Scene scene)
         {
             Scene[] tempArray = new Scene[_scenes.Length + 1];
@@ -111,7 +111,7 @@ namespace MathForGames
         {
             _scenes = new Scene[0];
         }
-
+        
         public static void SetCurrentScene(int index)
         {
             if (index < 0 || index > _scenes.Length)
@@ -120,6 +120,21 @@ namespace MathForGames
                 _scenes[_currentSceneIndex].End();
             _currentSceneIndex = index;
         }
+
+        public void Save()
+        {
+            StreamWriter writer = new StreamWriter("SavedData.txt");
+            _player.Save(writer);
+            writer.Close();
+        }
+
+        public void Load()
+        {
+            StreamReader reader = new StreamReader("SavedData.txt");
+            _player.Load(reader);
+            reader.Close();
+        }
+
         //Called when the game begins. Use this for initialization.
         public void Start()
         {
@@ -127,28 +142,23 @@ namespace MathForGames
             Raylib.SetTargetFPS(60);
 
             _scene = new Scene();
-            Scene scene2 = new Scene();
-            Actor actor = new Actor(5, 5, Color.GREEN, 'o', ConsoleColor.Green);
-            Enemy enemy = new Enemy(1, 1, Color.GREEN, ' ', ConsoleColor.Green);
-            _player = new Player(5, 5, Color.PURPLE, ' ', ConsoleColor.Red);
-            _player.SetTranslate(new Vector2(10, 10));
-            //player.AddChild(actor, player);
-            enemy.Target = _player;
-            _scene.AddActor(actor);
-            _scene.AddActor(enemy);
-            _scene.AddActor(_player);
-            
-            scene2.AddActor(_player);
 
+            _player.SetTranslate(new Vector2(10, 10));
+
+            _enemy.Target = _player;
+
+            _scene.AddActor(shopOwner);
+            _scene.AddActor(_enemy);
+            _scene.AddActor(_player);
+
+            
             int startingSceneIndex = 0;
 
             startingSceneIndex = AddScene(_scene);
-            AddScene(scene2);
             _player.Speed = 5;
-
-            SetCurrentScene(startingSceneIndex);
+            
+            //SetCurrentScene(startingSceneIndex);
         }
-
 
         //Called every frame.
         public void Update(float deltaTime)
@@ -169,7 +179,6 @@ namespace MathForGames
             Raylib.EndDrawing();
         }
 
-
         //Called when the game ends.
         public void End()
         {
@@ -178,11 +187,10 @@ namespace MathForGames
 
         }
 
-
-
         //Handles all of the main game logic including the main game loop.
         public void Run()
         {
+            
             Start();
 
             while (_gameOver = false || !Raylib.WindowShouldClose())
@@ -195,9 +203,10 @@ namespace MathForGames
                     SetGameOver(true);
                     break;
                 }
+                
                 while (Console.KeyAvailable)
                     Console.ReadKey(true);
-                
+
             }
 
             End();

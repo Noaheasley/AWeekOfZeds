@@ -23,6 +23,7 @@ namespace MathForGames
         protected Color _rayColor;
         protected Actor _parent;
         public bool _isDead = false;
+        public bool _interacted = false;
         protected Actor[] _children = new Actor[0];
         private float _health = 1;
         private string _name = "no_name";
@@ -73,7 +74,13 @@ namespace MathForGames
             }
         }
 
-
+        public Actor()
+        {
+            _name = "THE MAN";
+            _health = 1;
+            _damage = 1;
+            _money = 0;
+        }
         public Actor(float x, float y, string nameVal, float healthVal, float damageVal, float moneyVal, char icon = ' ', ConsoleColor color = ConsoleColor.White)
         {
             _name = nameVal;

@@ -35,6 +35,13 @@ namespace MathForGames
             _hands._statBoost = 0;
             
         }
+        public Player() : base()
+        {
+            _inv = new Item[3];
+            _money = 0;
+            _hands._name = "punchies";
+            _hands._statBoost = 0;
+        }
 
         public Player(float x, float y, string nameVal, float healthVal, float damageVal, float moneyVal, Color raycolor, char icon = ' ', ConsoleColor color = ConsoleColor.White)
             : base(x, y, nameVal, healthVal, damageVal, moneyVal, raycolor, icon, color)
@@ -78,44 +85,26 @@ namespace MathForGames
             player._money += enemy._money;
         }
 
-        public bool Contains(int itemIndex)
+        public float GetMoney()
         {
-            if(itemIndex > 0 && itemIndex < _inv.Length)
-            {
-                return true;
-            }
-            return false;
+            return _money;
         }
 
-        public void AddItemToInv(Item item, int index)
-        {
-            _inv[index] = item;
-        }
-        public void EquipItem(int itemIndex)
-        {
-            if(Contains(itemIndex))
-            {
-                _currentWeapon = _inv[itemIndex];
-            }
-        }
-        public void UnequipItem()
-        {
-            _currentWeapon = _hands;
-        }
-        public Item[] GetInv()
-        {
-            return _inv;
-        }
         public override void Draw()
         {
             _sprite.Draw(_globalTransform);
             base.Draw();
         }
+        
         public override void OnCollision(Actor other)
         {
             if (other is Enemy)
             {
                 _isDead = true;
+            }
+            else if(other is Interactable)
+            {
+                _interacted = true;
             }
             base.OnCollision(other);
         }
