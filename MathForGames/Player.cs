@@ -43,15 +43,14 @@ namespace MathForGames
             _hands._statBoost = 0;
         }
 
-        public Player(float x, float y, string nameVal, float healthVal, float damageVal, float moneyVal, Color raycolor, char icon = ' ', ConsoleColor color = ConsoleColor.White)
+        public Player(float x, float y, string nameVal, float healthVal, float damageVal, float moneyVal, Color raycolor, char icon = 'P', ConsoleColor color = ConsoleColor.White)
             : base(x, y, nameVal, healthVal, damageVal, moneyVal, raycolor, icon, color)
         {
             
-            _sprite = new Sprite("AWZ_Sprites/PlayerPlaceHolder.png");
+            //_sprite = new Sprite("AWZ_Sprites/PlayerPlaceHolder.png");
             _inv = new Item[3];
             _money = moneyVal;
-            _hands._name = "Fist";
-            _hands._statBoost = 0;
+           
         }
         public override void Update(float deltaTime)
         {

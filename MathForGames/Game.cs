@@ -18,8 +18,8 @@ namespace MathForGames
         private Item _pistol;
         private Item _shotgun;
 
-        private Enemy _enemy = new Enemy(1, 1, "ZED", 1, 1, 5, Color.GREEN, ' ', ConsoleColor.Green);
-        private Player _player = new Player(5, 5,"Player",1,1,10, Color.PURPLE, ' ', ConsoleColor.Red);
+        private Enemy _enemy = new Enemy(1, 1, "ZED", 1, 1, 5, Color.GREEN, 'Z', ConsoleColor.Green);
+        private Player _player = new Player(5, 5,"Player",1,1,10, Color.PURPLE, 'P', ConsoleColor.Red);
         private Scene _scene;
         private Interactable shopOwner = new Interactable(5, 10, "Shop", 1, 1, 1, Color.GOLD, 'S', ConsoleColor.Yellow);
 

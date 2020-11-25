@@ -13,10 +13,9 @@ namespace MathForGames
         public string _name;
         private Player _player;
 
-        Item(Sprite sprite, float x, float y, string nameVal, float healthVal, float damageVal, float moneyVal, Color raycolor, char icon = ' ',  ConsoleColor color = ConsoleColor.White)
-            : base(sprite, x, y, nameVal, healthVal, damageVal, moneyVal, Color.GOLD, 'S', ConsoleColor.White)
+        Item(float x, float y, string nameVal, float healthVal, float damageVal, float moneyVal, Color raycolor, char icon = ' ',  ConsoleColor color = ConsoleColor.White)
+            : base( x, y, nameVal, healthVal, damageVal, moneyVal, Color.GOLD, 'S', ConsoleColor.White)
         {
-            sprite = new Sprite("AWZ_Sprites");
             _collisionRadius = 1;
         }
 
