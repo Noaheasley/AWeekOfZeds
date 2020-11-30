@@ -34,8 +34,9 @@ namespace MathForGames
                 }
             }
         }
-        public void AddActor(Actor actor)
+        public void AddActor(Actor actor, float x, float y)
         {
+            actor.LocalPosition = new Vector2(x, y);
             //creating a new array with a size one greater than our old array
             Actor[] appendedArray = new Actor[_actors.Length + 1];
             //copy values from the old array to the new array

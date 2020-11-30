@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Timers;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -13,15 +14,13 @@ namespace MathForGames
         private static bool _gameOver = false;
         private static Scene[] _scenes;
         private static int _currentSceneIndex;
+        private static System.Timers.Timer aTimer;
 
-        private Item _knife;
-        private Item _pistol;
-        private Item _shotgun;
-
-        private Enemy _enemy = new Enemy(1, 1, "ZED", 1, 1, 5, Color.GREEN, 'Z', ConsoleColor.Green);
+        private Enemy _enemy1 = new Enemy(1, 1, "ZED", 1, 1, 5, Color.GREEN, 'Z', ConsoleColor.Green);
+        private Enemy _enemy2 = new Enemy(1, 1, "ZED", 1, 1, 5, Color.GREEN, 'Z', ConsoleColor.Green);
         private Player _player = new Player(5, 5,"Player",1,1,10, Color.PURPLE, 'P', ConsoleColor.Red);
         private Scene _scene;
-        private Interactable shopOwner = new Interactable(5, 10, "Shop", 1, 1, 1, Color.GOLD, 'S', ConsoleColor.Yellow);
+        private Item KillZed = new Item(10, 10, "kill", 1, 1, 1, Color.YELLOW, 'K', ConsoleColor.Yellow);
 
         public static int CurrentSceneIndex
         {
@@ -31,6 +30,7 @@ namespace MathForGames
             }
         }
         
+
         public static ConsoleColor DefaultColor { get; set; } = ConsoleColor.White;
 
         public static Scene GetScenes(int index)
@@ -121,19 +121,7 @@ namespace MathForGames
             _currentSceneIndex = index;
         }
 
-        public void Save()
-        {
-            StreamWriter writer = new StreamWriter("SavedData.txt");
-            _player.Save(writer);
-            writer.Close();
-        }
-
-        public void Load()
-        {
-            StreamReader reader = new StreamReader("SavedData.txt");
-            _player.Load(reader);
-            reader.Close();
-        }
+        
 
         //Called when the game begins. Use this for initialization.
         public void Start()
@@ -145,11 +133,13 @@ namespace MathForGames
 
             _player.SetTranslate(new Vector2(10, 10));
 
-            _enemy.Target = _player;
+            _enemy1.Target = _player;
+            _enemy2.Target = _player;
 
-            _scene.AddActor(shopOwner);
-            _scene.AddActor(_enemy);
-            _scene.AddActor(_player);
+            
+            _scene.AddActor(_enemy1,1,5);
+            _scene.AddActor(_enemy2,5,1);
+            _scene.AddActor(_player,10,15);
 
             
             int startingSceneIndex = 0;
@@ -172,10 +162,19 @@ namespace MathForGames
         //Used to display objects and other info on the screen.
         public void Draw()
         {
+            if (Game.GetKeyDown((int)KeyboardKey.KEY_UP))
+            {
+                _scene.AddActor(KillZed, _player.LocalPosition.X, _player.LocalPosition.Y);
+
+                KillZed.SetRotation(_player.GetAngle());
+
+            }
+
             Raylib.BeginDrawing();
             Raylib.ClearBackground(Color.BLACK);
             Console.Clear();
             _scenes[_currentSceneIndex].Draw();
+            
             Raylib.EndDrawing();
         }
 
@@ -198,6 +197,7 @@ namespace MathForGames
                 float deltaTime = Raylib.GetFrameTime();
                 Update(deltaTime);
                 Draw();
+                
                 if (_player._isDead == true)
                 {
                     SetGameOver(true);

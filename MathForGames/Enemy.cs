@@ -10,6 +10,8 @@ namespace MathForGames
     {
         private Actor _target;
         private Color _alertColor;
+        private Vector2 _x;
+        private Vector2 _y;
         private float _money;
         private float _targetDistance;
         private float _speed = 1;
@@ -60,46 +62,29 @@ namespace MathForGames
 
             return false;
         }
-        public static float FindAngle(Vector2 lhs, Vector2 rhs)
-        {
-            lhs = lhs.Normalized;
-            rhs = rhs.Normalized;
-
-            float dotProd = Vector2.DotProduct(lhs, rhs);
-
-            if (Math.Abs(dotProd) > 1)
-                return 0;
-
-            float angle = (float)Math.Acos(dotProd);
-
-            Vector2 perp = new Vector2(rhs.Y, -rhs.X);
-
-            float perpDot = Vector2.DotProduct(perp, lhs);
-
-            if (perpDot != 0)
-                angle *= perpDot / Math.Abs(perpDot);
-
-            return angle;
-        } //Find Angle function
+         //Find Angle function
 
         public void TrackTargetInSight(Vector2 position)
         {
             Vector2 direction = (position - WorldPosition).Normalized;
 
-            float angle = FindAngle(Forward, direction);
+            float angle = Vector2.FindAngle(Forward, direction);
 
             Rotate(-angle);
+
+            Velocity = position - WorldPosition;
         }
 
+        
         public override void OnCollision(Actor other)
         {
             if(other is Player)
             {
                 _isDead = true;
             }
-            else if (other is Interactable)
+            else if (other is Item)
             {
-                _interacted = true;
+                _isDead = true;
                 
             }
             base.OnCollision(other);
@@ -108,18 +93,19 @@ namespace MathForGames
         
         public override void Update(float deltaTime)
         {
+            
             if (GetTargetInSight(1.5f, 5) == true)
             {
                 _rayColor = Color.RED;
                 TrackTargetInSight(Target.LocalPosition);
-
-                int x = 1;
-                int y = 1;
-                Velocity = new Vector2(x, y);
-                Velocity = Velocity.Normalized * Speed;
+                
             }
             else
             {
+                int x = 1;
+                int y = 0;
+                Velocity = new Vector2(x, y);
+                Velocity = Velocity.Normalized * Speed;
                 _rayColor = Color.GREEN;
                 
             }

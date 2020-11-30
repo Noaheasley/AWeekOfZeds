@@ -28,7 +28,8 @@ namespace MathForGames
         private float _health = 1;
         private string _name = "no_name";
         protected float _damage = 1;
-        public float _money = 10;
+        public float _angle;
+        public float _points = 10;
         public float _collisionRadius;
 
         public bool Started { get; private set; }
@@ -79,14 +80,14 @@ namespace MathForGames
             _name = "THE MAN";
             _health = 1;
             _damage = 1;
-            _money = 0;
+            _points = 0;
         }
         public Actor(float x, float y, string nameVal, float healthVal, float damageVal, float moneyVal, char icon = ' ', ConsoleColor color = ConsoleColor.White)
         {
             _name = nameVal;
             _health = healthVal;
             _damage = damageVal;
-            _money = moneyVal;
+            _points = moneyVal;
             _rayColor = Color.WHITE;
             _icon = icon;
             _localTransform = new Matrix3();
@@ -100,7 +101,7 @@ namespace MathForGames
             _name = nameVal;
             _health = healthVal;
             _damage = damageVal;
-            _money = moneyVal;
+            _points = moneyVal;
             _rayColor = raycolor;
             _icon = icon;
             _localTransform = new Matrix3();
@@ -109,7 +110,10 @@ namespace MathForGames
             _color = color;
             _sprite = new Sprite("AWZ_Sprites");
         }
-
+        public float GetAngle()
+        {
+            return _angle;
+        }
         public void AddChild(Actor child, Actor parent)
         {
             Actor[] tempArray = new Actor[_children.Length + 1];
@@ -155,61 +159,10 @@ namespace MathForGames
             return childRemoved;
         }
 
-        public string GetName()
-        {
-            return _name;
-        }
-        public float GetDamage()
-        {
-            return _damage;
-        }
+        
 
-        public virtual float TakeDamage(float damageVal)
-        {
-            _health -= damageVal;
-            if(_health < 0)
-            {
-                _health = 0;
-            }
-            return damageVal;
-        }
-
-        public virtual float Attack(Actor actor)
-        {
-            return actor.TakeDamage(_damage);
-        }
-        public virtual void Save(StreamWriter writer)
-        {
-            writer.WriteLine(_name);
-            writer.WriteLine(_health);
-            writer.WriteLine(_damage);
-            writer.WriteLine(_money);
-        }
-
-        public virtual bool Load(StreamReader reader)
-        {
-            if(File.Exists("SavedData.txt") == false)
-            {
-                return false;
-            }
-            string name = reader.ReadLine();
-            float health = 0;
-            float damage = 0;
-
-            if(float.TryParse(reader.ReadLine(), out health) == false)
-            {
-                return false;
-            }
-            if(float.TryParse(reader.ReadLine(), out damage) == false)
-            {
-                return false;
-            }
-
-            _name = name;
-            _damage = damage;
-            _health = health;
-            return true;
-        }
+        
+        
 
         public bool GetIsAlive()
         {

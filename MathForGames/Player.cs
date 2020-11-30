@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Timers;
 using System.Collections.Generic;
 using System.Text;
 using MathLibrary;
@@ -8,10 +9,7 @@ namespace MathForGames
 {
     class Player : Actor
     {
-        private float _money;
-        private Item[] _inv;
-        private Item _currentWeapon;
-        private Item _hands;
+        
 
         private float _speed = 1;
         public float Speed
@@ -29,18 +27,16 @@ namespace MathForGames
             : base(x, y, nameVal, healthVal, damageVal, moneyVal, icon, color)
         {
             _sprite = new Sprite("AWZ_Sprites/PlayerPlaceHolder.png");
-            _inv = new Item[3];
-            _money = moneyVal;
-            _hands._name = "Fist";
-            _hands._statBoost = 0;
+            
+            _points = moneyVal;
+            
             
         }
         public Player() : base()
         {
-            _inv = new Item[3];
-            _money = 0;
-            _hands._name = "punchies";
-            _hands._statBoost = 0;
+          
+            _points = 0;
+            
         }
 
         public Player(float x, float y, string nameVal, float healthVal, float damageVal, float moneyVal, Color raycolor, char icon = 'P', ConsoleColor color = ConsoleColor.White)
@@ -48,10 +44,11 @@ namespace MathForGames
         {
             
             //_sprite = new Sprite("AWZ_Sprites/PlayerPlaceHolder.png");
-            _inv = new Item[3];
-            _money = moneyVal;
+            
+            _points = moneyVal;
            
         }
+        
         public override void Update(float deltaTime)
         {
             int xVelocity = -Convert.ToInt32(Game.GetKeyDown((int)KeyboardKey.KEY_A))
@@ -59,7 +56,27 @@ namespace MathForGames
             int yVelocity = -Convert.ToInt32(Game.GetKeyDown((int)KeyboardKey.KEY_W))
                 + Convert.ToInt32(Game.GetKeyDown((int)KeyboardKey.KEY_S));
 
+            if(Game.GetKeyDown((int)KeyboardKey.KEY_LEFT))
+            {
+                Rotate(.5f);
 
+                Vector2 direction = (LocalPosition - WorldPosition).Normalized;
+
+                float angle = Vector2.FindAngle(Forward, direction);
+
+                _angle = angle;
+            }
+            if (Game.GetKeyDown((int)KeyboardKey.KEY_RIGHT))
+            {
+                Rotate(-.5f);
+
+                Vector2 direction = (LocalPosition - WorldPosition).Normalized;
+
+                float angle = Vector2.FindAngle(Forward, direction);
+
+                _angle = angle;
+            }
+            
 
             Velocity = new Vector2(xVelocity, yVelocity);
             Velocity = Velocity.Normalized * Speed;
@@ -67,13 +84,12 @@ namespace MathForGames
 
             base.Update(deltaTime);
         }
-
-        public bool Buy(Item item, int inventoryIndex)
+        
+        public bool Buy(Item item)
         {
-            if(_money >= item._cost)
+            if(_points >= item._cost)
             {
-                _money -= item._cost;
-                _inv[inventoryIndex] = item;
+                _points -= item._cost;
                 return true;
             }
             return false;
@@ -81,17 +97,18 @@ namespace MathForGames
 
         public void MoneyGain(Player player, Enemy enemy)
         {
-            player._money += enemy._money;
+            player._points += enemy._points;
         }
 
         public float GetMoney()
         {
-            return _money;
+            return _points;
         }
 
         public override void Draw()
         {
             _sprite.Draw(_globalTransform);
+            
             base.Draw();
         }
         
@@ -101,7 +118,7 @@ namespace MathForGames
             {
                 _isDead = true;
             }
-            else if(other is Interactable)
+            else if(other is Item)
             {
                 _interacted = true;
             }

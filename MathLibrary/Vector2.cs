@@ -44,6 +44,28 @@ namespace MathLibrary
             _x = x;
             _y = y;
         }
+        public static float FindAngle(Vector2 lhs, Vector2 rhs)
+        {
+            lhs = lhs.Normalized;
+            rhs = rhs.Normalized;
+
+            float dotProd = Vector2.DotProduct(lhs, rhs);
+
+            if (Math.Abs(dotProd) > 1)
+                return 0;
+
+            float angle = (float)Math.Acos(dotProd);
+
+            Vector2 perp = new Vector2(rhs.Y, -rhs.X);
+
+            float perpDot = Vector2.DotProduct(perp, lhs);
+
+            if (perpDot != 0)
+                angle *= perpDot / Math.Abs(perpDot);
+
+            return angle;
+        }
+
         public static float Distance(Vector2 lhs, Vector2 rhs)
         {
             float XSqr = (lhs.X - rhs.X) * (lhs.X - rhs.X);
