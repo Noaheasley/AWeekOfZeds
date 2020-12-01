@@ -10,10 +10,10 @@ namespace MathForGames
     {
         
 
-        public Interactable(float x, float y, string nameVal, float healthVal, float damageVal, float moneyVal, Color raycolor, char icon = ' ', ConsoleColor color = ConsoleColor.White) 
-            : base(x, y, nameVal, healthVal, damageVal, moneyVal, Color.GOLD, 'S', ConsoleColor.White)
+        public Interactable(Vector2 position, Vector2 direction, Sprite sprite, float speed = 10) 
+            : base()
         {
-            
+
         }
         public override void OnCollision(Actor other)
         {

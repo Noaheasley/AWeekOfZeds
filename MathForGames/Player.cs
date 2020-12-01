@@ -11,7 +11,7 @@ namespace MathForGames
     {
         
 
-        private float _speed = 1;
+        private float _speed = 5;
         public float Speed
         {
             get
@@ -76,11 +76,9 @@ namespace MathForGames
 
                 _angle = angle;
             }
+
+            Acceleration = new Vector2(xVelocity, yVelocity);
             
-
-            Velocity = new Vector2(xVelocity, yVelocity);
-            Velocity = Velocity.Normalized * Speed;
-
 
             base.Update(deltaTime);
         }

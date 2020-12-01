@@ -13,6 +13,8 @@ namespace MathForGames
     {
         protected char _icon = 'a';
         protected Vector2 _velocity;
+        private Vector2 acceleration = new Vector2();
+        private float _maxSpeed = 2.5f;
         protected Sprite _sprite;
         protected Matrix3 _globalTransform = new Matrix3();
         protected Matrix3 _localTransform = new Matrix3();
@@ -38,6 +40,9 @@ namespace MathForGames
         {
             get { return new Vector2(_localTransform.m11, _localTransform.m21); }
         }
+
+        public Vector2 Acceleration { get => acceleration; set => acceleration = value; }
+        public float MaxSpeed { get => _maxSpeed; set => _maxSpeed = value; }
 
         public Vector2 WorldPosition
         {
@@ -77,10 +82,7 @@ namespace MathForGames
 
         public Actor()
         {
-            _name = "THE MAN";
-            _health = 1;
-            _damage = 1;
-            _points = 0;
+            
         }
         public Actor(float x, float y, string nameVal, float healthVal, float damageVal, float moneyVal, char icon = ' ', ConsoleColor color = ConsoleColor.White)
         {
@@ -233,6 +235,12 @@ namespace MathForGames
             WorldPosition += _velocity * deltaTime;
             WorldPosition.X = Math.Clamp(WorldPosition.X, 0, Console.WindowWidth - 1);
             WorldPosition.Y = Math.Clamp(WorldPosition.Y, 0, Console.WindowHeight - 1);
+            
+            Velocity += Acceleration;
+            if(Velocity.Magnitude > MaxSpeed)
+            {
+                Velocity = Velocity.Normalized * MaxSpeed;
+            }
         }
 
         public virtual void Draw()
