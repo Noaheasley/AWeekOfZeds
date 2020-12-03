@@ -34,9 +34,8 @@ namespace MathForGames
                 }
             }
         }
-        public void AddActor(Actor actor, float x, float y)
+        public void AddActor(Actor actor)
         {
-            actor.LocalPosition = new Vector2(x, y);
             //creating a new array with a size one greater than our old array
             Actor[] appendedArray = new Actor[_actors.Length + 1];
             //copy values from the old array to the new array
@@ -98,17 +97,22 @@ namespace MathForGames
             int j = 0;
             for (int i = 0; i < _actors.Length; i++)
             {
-                if (actor == _actors[i])
+                if (actor != _actors[i])
                 {
-                    newArray[j] = _actors[i];
-                    j++;
-                }
-                else
-                {
-                    actorRemoved = true;
-                    if (actor.Started)
-                        actor.End();
 
+                    if (j < newArray.Length)
+                    {
+
+                        newArray[j] = _actors[i];
+                        j++;
+                    }
+                    else
+                    {
+                        actorRemoved = true;
+                        if (actor.Started)
+                            actor.End();
+
+                    }
                 }
             }
             _actors = newArray;
@@ -143,7 +147,7 @@ namespace MathForGames
         public virtual void Draw()
         {
             for (int i = 0; i < _actors.Length; i++)
-            {
+            { 
                 _actors[i].Draw();
             }
             CheckCollision();

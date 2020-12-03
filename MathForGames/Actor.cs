@@ -13,6 +13,7 @@ namespace MathForGames
     {
         protected char _icon = 'a';
         protected Vector2 _velocity;
+
         private Vector2 acceleration = new Vector2();
         private float _maxSpeed = 2.5f;
         protected Sprite _sprite;
@@ -30,11 +31,24 @@ namespace MathForGames
         private float _health = 1;
         private string _name = "no_name";
         protected float _damage = 1;
+        protected float _speed = 5;
         public float _angle;
         public float _points = 10;
         public float _collisionRadius;
 
         public bool Started { get; private set; }
+
+        public float Speed
+        {
+            get
+            {
+                return _speed;
+            }
+            set
+            {
+                _speed = value;
+            }
+        }
 
         public Vector2 Forward
         {
@@ -84,7 +98,11 @@ namespace MathForGames
         {
             
         }
-        public Actor(float x, float y, string nameVal, float healthVal, float damageVal, float moneyVal, char icon = ' ', ConsoleColor color = ConsoleColor.White)
+        public Actor(float x, float y)
+        {
+
+        }
+        public Actor(float x, float y, string nameVal, float healthVal, float damageVal, float moneyVal, char icon = 'A', ConsoleColor color = ConsoleColor.White)
         {
             _name = nameVal;
             _health = healthVal;
@@ -98,8 +116,9 @@ namespace MathForGames
             _color = color;
             _sprite = new Sprite("AWZ_Sprites");
         }
-        public Actor(float x, float y, string nameVal, float healthVal, float damageVal, float moneyVal, Color raycolor, char icon = ' ', ConsoleColor color = ConsoleColor.White)
+        public Actor(float x, float y, string nameVal, float healthVal, float damageVal, float moneyVal, float speed, Color raycolor, char icon = 'A', ConsoleColor color = ConsoleColor.White)
         {
+            _speed = speed;
             _name = nameVal;
             _health = healthVal;
             _damage = damageVal;

@@ -9,20 +9,13 @@ namespace MathForGames
 {
     class Player : Actor
     {
+        public Bullet _bullet;
+        private float _durability = 200;
+        private float _timer = 0;
+        private float _coolDown = 1;
+        private bool _coolingDown = false;
         
-
-        private float _speed = 5;
-        public float Speed
-        {
-            get
-            {
-                return _speed;
-            }
-            set
-            {
-                _speed = value;
-            }
-        }
+        
         public Player(float x, float y, string nameVal, float healthVal, float damageVal, float moneyVal, char icon = ' ', ConsoleColor color = ConsoleColor.White)
             : base(x, y, nameVal, healthVal, damageVal, moneyVal, icon, color)
         {
@@ -39,8 +32,8 @@ namespace MathForGames
             
         }
 
-        public Player(float x, float y, string nameVal, float healthVal, float damageVal, float moneyVal, Color raycolor, char icon = 'P', ConsoleColor color = ConsoleColor.White)
-            : base(x, y, nameVal, healthVal, damageVal, moneyVal, raycolor, icon, color)
+        public Player(float x, float y, string nameVal, float healthVal, float damageVal, float moneyVal, float speed, Color raycolor, char icon = 'P', ConsoleColor color = ConsoleColor.White)
+            : base(x, y, nameVal, healthVal, damageVal, moneyVal, speed, raycolor, icon, color)
         {
             
             //_sprite = new Sprite("AWZ_Sprites/PlayerPlaceHolder.png");
@@ -51,6 +44,19 @@ namespace MathForGames
         
         public override void Update(float deltaTime)
         {
+            
+
+            if (_coolingDown == true)
+            {
+                _timer += deltaTime;
+                if (_timer >= _coolDown)
+                {
+                    RemoveBullet(_bullet);
+                    _coolingDown = false;
+                    _timer = 0;
+                }
+
+            }
             int xVelocity = -Convert.ToInt32(Game.GetKeyDown((int)KeyboardKey.KEY_A))
                 + Convert.ToInt32(Game.GetKeyDown((int)KeyboardKey.KEY_D));
             int yVelocity = -Convert.ToInt32(Game.GetKeyDown((int)KeyboardKey.KEY_W))
@@ -69,39 +75,40 @@ namespace MathForGames
             if (Game.GetKeyDown((int)KeyboardKey.KEY_RIGHT))
             {
                 Rotate(-.5f);
-
-                Vector2 direction = (LocalPosition - WorldPosition).Normalized;
-
-                float angle = Vector2.FindAngle(Forward, direction);
-
-                _angle = angle;
             }
 
-            Acceleration = new Vector2(xVelocity, yVelocity);
+            if (Game.GetKeyDown((int)KeyboardKey.KEY_UP) && !_coolingDown)
+            {
+                Bullet bullet = new Bullet(WorldPosition + Forward, Forward, "deathmetal", 1, 1, 0, _sprite, Color.BLUE, 'B', 10, ConsoleColor.Red);
+                CreateBullet(bullet);
+                _coolingDown = true;
+                
+            }
+
+
+           
+            
+            
             
 
+            Acceleration = new Vector2(xVelocity, yVelocity);
             base.Update(deltaTime);
         }
         
-        public bool Buy(Item item)
+        public void CreateBullet(Bullet bullet)
         {
-            if(_points >= item._cost)
-            {
-                _points -= item._cost;
-                return true;
-            }
-            return false;
+            _bullet = bullet;
+            Scene scene = Game.GetScenes(Game.CurrentSceneIndex);
+            scene.AddActor(_bullet);
+            bullet.Velocity = Forward * _bullet.Speed;
         }
-
-        public void MoneyGain(Player player, Enemy enemy)
+        public void RemoveBullet(Bullet bullet)
         {
-            player._points += enemy._points;
+            bullet = _bullet;
+            Scene scene = Game.GetScenes(Game.CurrentSceneIndex);
+            scene.RemoveActor(_bullet);
         }
-
-        public float GetMoney()
-        {
-            return _points;
-        }
+        
 
         public override void Draw()
         {

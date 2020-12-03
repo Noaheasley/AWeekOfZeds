@@ -12,13 +12,10 @@ namespace MathForGames
         public int _cost;
         public string _name;
         private Player _player;
-        private Item _sniper;
-        private Item _pistol;
-        private Item _shotgun;
-        public Item bullet;
+        
 
-        public Item(float x, float y, string nameVal, float healthVal, float damageVal, float moneyVal, Color raycolor, char icon = ' ',  ConsoleColor color = ConsoleColor.White)
-            : base( x, y, nameVal, healthVal, damageVal, moneyVal, Color.GOLD, 'S', ConsoleColor.White)
+        public Item(float x, float y, string nameVal, float healthVal, float damageVal, float moneyVal, float speed, Color raycolor, char icon = ' ',  ConsoleColor color = ConsoleColor.White)
+            : base( x, y, nameVal, healthVal, damageVal, moneyVal, speed, Color.GOLD, 'S', ConsoleColor.White)
         {
             _collisionRadius = 1;
         }

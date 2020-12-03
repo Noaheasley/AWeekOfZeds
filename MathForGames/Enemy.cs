@@ -8,6 +8,7 @@ namespace MathForGames
 {
     class Enemy : Actor
     {
+        public Enemy enemy;
         private Actor _target;
         private Color _alertColor;
         private Vector2 _x;
@@ -39,8 +40,8 @@ namespace MathForGames
             _collisionRadius = 1;
         }
 
-        public Enemy(float x, float y, string nameVal, float healthVal, float damageVal, float moneyVal, Color raycolor, char icon = 'Z', ConsoleColor color = ConsoleColor.White)
-            : base(x, y, nameVal,healthVal,damageVal,moneyVal, raycolor, icon, color)
+        public Enemy(float x, float y, string nameVal, float healthVal, float damageVal, float moneyVal, float speed, Color raycolor, char icon = 'Z', ConsoleColor color = ConsoleColor.White)
+            : base(x, y, nameVal,healthVal,damageVal,moneyVal, speed, raycolor, icon, color)
         {
             //_sprite = new Sprite("AWZ_Sprites/Zed.png");
             _alertColor = Color.RED;
@@ -82,7 +83,7 @@ namespace MathForGames
             {
                 _isDead = true;
             }
-            else if (other is Item)
+            else if (other is Bullet)
             {
                 _isDead = true;
                 
@@ -93,7 +94,12 @@ namespace MathForGames
         
         public override void Update(float deltaTime)
         {
-            
+            if(_isDead == true)
+            {
+                 
+                Scene scene = Game.GetScenes(Game.CurrentSceneIndex);
+                scene.RemoveActor(enemy);
+            }
             if (GetTargetInSight(1.5f, 5) == true)
             {
                 _rayColor = Color.RED;
