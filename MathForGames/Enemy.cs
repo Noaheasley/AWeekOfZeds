@@ -92,14 +92,14 @@ namespace MathForGames
             base.OnCollision(other);
         }
 
-        public void RespawnZombie(Enemy enemy,float x, float y)
+        public void RespawnZombie(Enemy enemy)
         {
             if(_approveRespawn == false)
             {
                 _deadZombie = true;
                 _approveRespawn = true;
-                Scene scene = Game.GetScenes(Game.CurrentSceneIndex);
-                LocalPosition = new Vector2(x, y);
+                
+                
                 
                 return;
             }

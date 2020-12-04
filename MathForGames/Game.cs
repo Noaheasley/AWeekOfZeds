@@ -138,7 +138,7 @@ namespace MathForGames
             _scene = new Scene();
             _scene.AddActor(_gun);
             _player.AddChild(_gun);
-            _player.SetTranslate(new Vector2(5, 10));
+            _player.SetTranslate(new Vector2(20, 10));
             _gun.SetTranslate(new Vector2(1, 0));
 
             _enemy1.Target = _player;
@@ -178,12 +178,16 @@ namespace MathForGames
         //Used to display objects and other info on the screen.
         public void Draw()
         {
+            //if a Zombie dies it will increase the score and allow the zombie to respawn
             if (_enemy1._deadZombie == true)
             {
                 _score += 1;
+                //removes the enemy from the scene
                 _scene.RemoveActor(_enemy1);
+                //takes away  the dead tag
                 _enemy1._deadZombie = false;
-                _enemy1.RespawnZombie(_enemy1,1,1);
+                //gives the zombie their respawn tag
+                _enemy1.RespawnZombie(_enemy1);
                 if(_enemy1._approveRespawn == true)
                 {
                     _scene.AddActor(_enemy1,10,1);
@@ -196,7 +200,7 @@ namespace MathForGames
                 _score += 1;
                 _scene.RemoveActor(_enemy2);
                 _enemy2._deadZombie = false;
-                _enemy2.RespawnZombie(_enemy2, 1, 3);
+                _enemy2.RespawnZombie(_enemy2);
                 if (_enemy2._approveRespawn == true)
                 {
                     _scene.AddActor(_enemy2, 15, 3);
@@ -209,7 +213,7 @@ namespace MathForGames
                 _score += 1;
                 _scene.RemoveActor(_enemy3);
                 _enemy3._deadZombie = false;
-                _enemy3.RespawnZombie(_enemy3, 1, 5);
+                _enemy3.RespawnZombie(_enemy3);
                 if (_enemy3._approveRespawn == true)
                 {
                     _scene.AddActor(_enemy3, 1, 5);
@@ -222,7 +226,7 @@ namespace MathForGames
                 _score += 1;
                 _scene.RemoveActor(_enemy4);
                 _enemy4._deadZombie = false;
-                _enemy4.RespawnZombie(_enemy4, 1, 7);
+                _enemy4.RespawnZombie(_enemy4);
                 if (_enemy4._approveRespawn == true)
                 {
                     _scene.AddActor(_enemy4, 1, 7);
@@ -235,7 +239,7 @@ namespace MathForGames
                 _score += 1;
                 _scene.RemoveActor(_enemy5);
                 _enemy5._deadZombie = false;
-                _enemy5.RespawnZombie(_enemy5, 1, 10);
+                _enemy5.RespawnZombie(_enemy5);
                 if (_enemy5._approveRespawn == true)
                 {
                     _scene.AddActor(_enemy5, 17, 10);
@@ -248,7 +252,7 @@ namespace MathForGames
                 _score += 1;
                 _scene.RemoveActor(_enemy6);
                 _enemy6._deadZombie = false;
-                _enemy6.RespawnZombie(_enemy6, 1, 13);
+                _enemy6.RespawnZombie(_enemy6);
                 if (_enemy6._approveRespawn == true)
                 {
                     _scene.AddActor(_enemy6, 1, 13);

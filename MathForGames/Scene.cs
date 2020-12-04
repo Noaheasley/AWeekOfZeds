@@ -19,7 +19,7 @@ namespace MathForGames
         {
             _actors = new Actor[0];
         }
-
+        //checks the collision of all the actors
         private void CheckCollision()
         {
             for (int i = 0; i < _actors.Length; i++)
@@ -34,6 +34,7 @@ namespace MathForGames
                 }
             }
         }
+        //adds an actor
         public void AddActor(Actor actor)
         {
             //creating a new array with a size one greater than our old array
@@ -48,6 +49,7 @@ namespace MathForGames
             //Set old array to hold values of the new arrat
             _actors = appendedArray;
         }
+        //adds an actor with specific cordinates
         public void AddActor(Actor actor,float x, float y)
         {
             actor.LocalPosition = new Vector2(x, y);
@@ -63,7 +65,7 @@ namespace MathForGames
             //Set old array to hold values of the new arrat
             _actors = appendedArray;
         }
-
+        //removes the actor from the index
         public bool RemoveActor(int index)
         {
             //checks if the index is outside the range of the array
@@ -97,7 +99,7 @@ namespace MathForGames
             _actors = tempArray;
             return false;
         }
-
+        //removes a certain actor
         public bool RemoveActor(Actor actor)
         {
             //checks to see if the actor was null

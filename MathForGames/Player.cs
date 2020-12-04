@@ -45,7 +45,7 @@ namespace MathForGames
         public override void Update(float deltaTime)
         {
             
-
+            //checks to see if shooting is in cooldown
             if (_coolingDown == true)
             {
                 _timer += deltaTime;
@@ -57,11 +57,13 @@ namespace MathForGames
                 }
 
             }
+            //movement in the X velocity
             int xVelocity = -Convert.ToInt32(Game.GetKeyDown((int)KeyboardKey.KEY_A))
                 + Convert.ToInt32(Game.GetKeyDown((int)KeyboardKey.KEY_D));
+            //movement in the y velocity
             int yVelocity = -Convert.ToInt32(Game.GetKeyDown((int)KeyboardKey.KEY_W))
                 + Convert.ToInt32(Game.GetKeyDown((int)KeyboardKey.KEY_S));
-
+            //turns the player to the left
             if(Game.GetKeyDown((int)KeyboardKey.KEY_LEFT) && !_isDead)
             {
                 Rotate(.5f);
@@ -72,11 +74,12 @@ namespace MathForGames
 
                 _angle = angle;
             }
+            //turns the player to the right
             if (Game.GetKeyDown((int)KeyboardKey.KEY_RIGHT) && !_isDead)
             {
                 Rotate(-.5f);
             }
-
+            //allows the player to shoot enemies
             if (Game.GetKeyDown((int)KeyboardKey.KEY_UP) && !_coolingDown)
             {
                 Bullet bullet = new Bullet(WorldPosition + Forward, Forward, "deathmetal", 1, 1, 0, _sprite, Color.BLUE, 'B', 10, ConsoleColor.Red);
@@ -84,16 +87,12 @@ namespace MathForGames
                 _coolingDown = true;
                 
             }
-
-
-
-
-
-
+            //disables player control one they die
             if (_isDead == false)
             {
                 Acceleration = new Vector2(xVelocity, yVelocity);
             }
+            //disables player control one they die(for shooting)
             else if(_isDead == true)
             {
                 _coolingDown = true;
@@ -102,7 +101,7 @@ namespace MathForGames
             }
             base.Update(deltaTime);
         }
-        
+        //spawns a bullet when called
         public void CreateBullet(Bullet bullet)
         {
             _bullet = bullet;
@@ -110,6 +109,7 @@ namespace MathForGames
             scene.AddActor(_bullet);
             bullet.Velocity = Forward * _bullet.Speed;
         }
+        //removes a bullet when called
         public void RemoveBullet(Bullet bullet)
         {
             bullet = _bullet;
