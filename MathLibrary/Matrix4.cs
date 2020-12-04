@@ -131,13 +131,13 @@ namespace MathLibrary
                    //ROW 3, COLUMN 4
                    lhs.m31 * rhs.m14 + lhs.m32 * rhs.m24 + lhs.m33 * rhs.m34 + lhs.m34 * rhs.m44,
 
-                   //ROW 3, COLUMN 1
+                   //ROW 4, COLUMN 1
                    lhs.m41 * rhs.m11 + lhs.m42 * rhs.m21 + lhs.m43 * rhs.m31 + lhs.m44 * rhs.m41,
-                   //ROW 3, COLUMN 2
+                   //ROW 4, COLUMN 2
                    lhs.m41 * rhs.m12 + lhs.m42 * rhs.m22 + lhs.m43 * rhs.m32 + lhs.m44 * rhs.m42,
-                   //ROW 3, COLUMN 3
+                   //ROW 4, COLUMN 3
                    lhs.m41 * rhs.m13 + lhs.m42 * rhs.m23 + lhs.m43 * rhs.m33 + lhs.m44 * rhs.m43,
-                   //ROW 3, COLUMN 4
+                   //ROW 4, COLUMN 4
                    lhs.m41 * rhs.m14 + lhs.m42 * rhs.m24 + lhs.m43 * rhs.m34 + lhs.m44 * rhs.m44
                 );
         }

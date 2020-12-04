@@ -12,22 +12,7 @@ namespace MathForGames
         public bool _approveRespawn;
         private Actor _target;
         private Color _alertColor;
-        private Vector2 _x;
-        private Vector2 _y;
-        private float _money;
-        private float _targetDistance;
-        private float _speed = 2;
-        public float Speed
-        {
-            get
-            {
-                return _speed;
-            }
-            set
-            {
-                _speed = value;
-            }
-        }
+        
 
         public Actor Target
         {
@@ -48,7 +33,7 @@ namespace MathForGames
             _alertColor = Color.RED;
             _collisionRadius = 1;
         }
-
+        //allows the enemy to detect a target
         public bool GetTargetInSight(float maxAngle, float maxDistance)
         {
             if (Target == null)

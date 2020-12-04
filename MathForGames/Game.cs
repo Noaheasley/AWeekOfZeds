@@ -14,7 +14,6 @@ namespace MathForGames
         private static bool _gameOver = false;
         private static Scene[] _scenes;
         private static int _currentSceneIndex;
-        private static System.Timers.Timer aTimer;
 
         private Enemy _enemy1 = new Enemy(1, 5, "ZED", 1, 1, 5,5, Color.GREEN, 'Z', ConsoleColor.Green);
         private Enemy _enemy2 = new Enemy(1, 1, "ZED", 1, 1, 5,5, Color.GREEN, 'Z', ConsoleColor.Green);
@@ -48,20 +47,15 @@ namespace MathForGames
         {
             return _scenes[_currentSceneIndex];
         }
-
+        //reads if any keys are pressed
         public static bool GetKeyDown(int key)
         {
             bool testbool = true;
             int test = Convert.ToInt32(testbool);
             return Raylib.IsKeyDown((KeyboardKey)key);
         }
-
-        public static bool GetKeyPressed(int key)
-        {
-
-            return Raylib.IsKeyPressed((KeyboardKey)key);
-        }
-
+        
+        //adds a scene into the scene index
         public static int AddScene(Scene scene)
         {
             Scene[] tempArray = new Scene[_scenes.Length + 1];
@@ -78,7 +72,7 @@ namespace MathForGames
 
             return index;
         }
-
+        //removes any scene from the index
         public static bool RemoveScene(Scene scene)
         {
             if (scene == null)
@@ -107,7 +101,7 @@ namespace MathForGames
 
             return removed;
         }
-
+        //sets gameover to a value
         public static void SetGameOver(bool value)
         {
             _gameOver = value;
@@ -117,7 +111,7 @@ namespace MathForGames
         {
             _scenes = new Scene[0];
         }
-        
+        //sets a new scene to be the current scene displayed
         public static void SetCurrentScene(int index)
         {
             if (index < 0 || index > _scenes.Length)
@@ -175,7 +169,7 @@ namespace MathForGames
             _scenes[_currentSceneIndex].Update(deltaTime);
         }
 
-        //Used to display objects and other info on the screen.
+        //Used to display objects.
         public void Draw()
         {
             //if a Zombie dies it will increase the score and allow the zombie to respawn
