@@ -8,14 +8,15 @@ namespace MathForGames
 {
     class Enemy : Actor
     {
-        public Enemy enemy;
+        public bool _deadZombie;
+        public bool _approveRespawn;
         private Actor _target;
         private Color _alertColor;
         private Vector2 _x;
         private Vector2 _y;
         private float _money;
         private float _targetDistance;
-        private float _speed = 1;
+        private float _speed = 2;
         public float Speed
         {
             get
@@ -73,7 +74,7 @@ namespace MathForGames
 
             Rotate(-angle);
 
-            Velocity = position - WorldPosition;
+            Velocity = (position - WorldPosition).Normalized * Speed * 2;
         }
 
         
@@ -85,22 +86,35 @@ namespace MathForGames
             }
             else if (other is Bullet)
             {
-                _isDead = true;
+                _deadZombie = true;
                 
             }
             base.OnCollision(other);
         }
 
-        
+        public void RespawnZombie(Enemy enemy,float x, float y)
+        {
+            if(_approveRespawn == false)
+            {
+                _deadZombie = true;
+                _approveRespawn = true;
+                Scene scene = Game.GetScenes(Game.CurrentSceneIndex);
+                LocalPosition = new Vector2(x, y);
+                
+                return;
+            }
+            return;
+        }
         public override void Update(float deltaTime)
         {
-            if(_isDead == true)
-            {
+            //if(_deadZombie == true)
+            //{
                  
-                Scene scene = Game.GetScenes(Game.CurrentSceneIndex);
-                scene.RemoveActor(enemy);
-            }
-            if (GetTargetInSight(1.5f, 5) == true)
+            //    Scene scene = Game.GetScenes(Game.CurrentSceneIndex);
+            //    scene.RemoveActor(enemy);
+            //}
+
+            if (GetTargetInSight(5f, 20) == true)
             {
                 _rayColor = Color.RED;
                 TrackTargetInSight(Target.LocalPosition);

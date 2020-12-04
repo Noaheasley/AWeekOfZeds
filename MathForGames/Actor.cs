@@ -135,8 +135,10 @@ namespace MathForGames
         {
             return _angle;
         }
-        public void AddChild(Actor child, Actor parent)
+        public bool AddChild(Actor child)
         {
+            if (child == null)
+                return false;
             Actor[] tempArray = new Actor[_children.Length + 1];
 
             for (int i = 0; i < _children.Length; i++)
@@ -145,12 +147,9 @@ namespace MathForGames
             }
 
             tempArray[_children.Length] = child;
-
             _children = tempArray;
-
-            child._parent = parent;
-
-            child.Velocity = parent.Velocity;
+            child._parent = this;
+            return true;
         }
 
         public bool RemoveChild(Actor child)
@@ -218,10 +217,8 @@ namespace MathForGames
             _scale = Matrix3.CreateScale(new Vector2(x, y));
         }
 
-        public void UpdateTransform()
-        {
-            _localTransform = _translation * _rotation * _scale;
-        }
+        
+
 
 
         private void UpdateTransforms()
@@ -251,26 +248,29 @@ namespace MathForGames
         public virtual void Update(float deltaTime)
         {
             UpdateTransforms();
+
+            
             WorldPosition += _velocity * deltaTime;
-            WorldPosition.X = Math.Clamp(WorldPosition.X, 0, Console.WindowWidth - 1);
-            WorldPosition.Y = Math.Clamp(WorldPosition.Y, 0, Console.WindowHeight - 1);
             
             Velocity += Acceleration;
-            if(Velocity.Magnitude > MaxSpeed)
+
+            if (Velocity.Magnitude > MaxSpeed)
             {
                 Velocity = Velocity.Normalized * MaxSpeed;
             }
+
+            LocalPosition += _velocity * deltaTime;
         }
 
         public virtual void Draw()
         {
             Raylib.DrawText(_icon.ToString(), (int)(WorldPosition.X * 32), (int)(WorldPosition.Y * 32), 20, _rayColor);
-            Raylib.DrawLine(
-                (int)(WorldPosition.X * 32),
-                (int)(WorldPosition.Y * 32),
-                (int)((WorldPosition.X + Forward.X) * 32),
-                (int)((WorldPosition.Y + Forward.Y) * 32),
-                _rayColor);
+            //Raylib.DrawLine(
+            //    (int)(WorldPosition.X * 32),
+            //    (int)(WorldPosition.Y * 32),
+            //    (int)((WorldPosition.X + Forward.X) * 32),
+            //    (int)((WorldPosition.Y + Forward.Y) * 32),
+            //    _rayColor);
 
 
             Console.ForegroundColor = _color;

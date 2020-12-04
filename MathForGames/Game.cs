@@ -18,8 +18,14 @@ namespace MathForGames
 
         private Enemy _enemy1 = new Enemy(1, 5, "ZED", 1, 1, 5,5, Color.GREEN, 'Z', ConsoleColor.Green);
         private Enemy _enemy2 = new Enemy(1, 1, "ZED", 1, 1, 5,5, Color.GREEN, 'Z', ConsoleColor.Green);
-        private Player _player = new Player(5, 5,"Player",1,1,10, 5, Color.PURPLE, 'P', ConsoleColor.Red);
+        private Enemy _enemy3 = new Enemy(1, 5, "ZED", 1, 1, 5, 5, Color.GREEN, 'Z', ConsoleColor.Green);
+        private Enemy _enemy4 = new Enemy(1, 7, "ZED", 1, 1, 5, 5, Color.GREEN, 'Z', ConsoleColor.Green);
+        private Enemy _enemy5 = new Enemy(1, 11, "ZED", 1, 1, 5, 5, Color.GREEN, 'Z', ConsoleColor.Green);
+        private Enemy _enemy6 = new Enemy(1, 14, "ZED", 1, 1, 5, 5, Color.GREEN, 'Z', ConsoleColor.Green);
+        private Player _player = new Player(1, 1,"Player",1,1,10, 5, Color.PURPLE, 'P', ConsoleColor.Red);
+        private Item _gun = new Item(5, 5, "Gun", 7, 1, 1, 1, Color.WHITE, 'G', ConsoleColor.White);
         private Scene _scene;
+        private int _score = 0;
 
 
         public static int CurrentSceneIndex
@@ -130,15 +136,25 @@ namespace MathForGames
             Raylib.SetTargetFPS(60);
 
             _scene = new Scene();
-
-            _player.SetTranslate(new Vector2(10, 10));
+            _scene.AddActor(_gun);
+            _player.AddChild(_gun);
+            _player.SetTranslate(new Vector2(5, 10));
+            _gun.SetTranslate(new Vector2(1, 0));
 
             _enemy1.Target = _player;
             _enemy2.Target = _player;
+            _enemy3.Target = _player;
+            _enemy4.Target = _player;
+            _enemy5.Target = _player;
+            _enemy6.Target = _player;
 
-            
+
             _scene.AddActor(_enemy1);
             _scene.AddActor(_enemy2);
+            _scene.AddActor(_enemy3);
+            _scene.AddActor(_enemy4);
+            _scene.AddActor(_enemy5);
+            _scene.AddActor(_enemy6);
             _scene.AddActor(_player);
 
             
@@ -162,8 +178,84 @@ namespace MathForGames
         //Used to display objects and other info on the screen.
         public void Draw()
         {
-            
-
+            if (_enemy1._deadZombie == true)
+            {
+                _score += 1;
+                _scene.RemoveActor(_enemy1);
+                _enemy1._deadZombie = false;
+                _enemy1.RespawnZombie(_enemy1,1,1);
+                if(_enemy1._approveRespawn == true)
+                {
+                    _scene.AddActor(_enemy1,10,1);
+                    return;
+                }
+                return;
+            }
+            else if (_enemy2._deadZombie == true)
+            {
+                _score += 1;
+                _scene.RemoveActor(_enemy2);
+                _enemy2._deadZombie = false;
+                _enemy2.RespawnZombie(_enemy2, 1, 3);
+                if (_enemy2._approveRespawn == true)
+                {
+                    _scene.AddActor(_enemy2, 15, 3);
+                    return;
+                }
+                return;
+            }
+            else if (_enemy3._deadZombie == true)
+            {
+                _score += 1;
+                _scene.RemoveActor(_enemy3);
+                _enemy3._deadZombie = false;
+                _enemy3.RespawnZombie(_enemy3, 1, 5);
+                if (_enemy3._approveRespawn == true)
+                {
+                    _scene.AddActor(_enemy3, 1, 5);
+                    return;
+                }
+                return;
+            }
+            else if (_enemy4._deadZombie == true)
+            {
+                _score += 1;
+                _scene.RemoveActor(_enemy4);
+                _enemy4._deadZombie = false;
+                _enemy4.RespawnZombie(_enemy4, 1, 7);
+                if (_enemy4._approveRespawn == true)
+                {
+                    _scene.AddActor(_enemy4, 1, 7);
+                    return;
+                }
+                return;
+            }
+            else if (_enemy5._deadZombie == true)
+            {
+                _score += 1;
+                _scene.RemoveActor(_enemy5);
+                _enemy5._deadZombie = false;
+                _enemy5.RespawnZombie(_enemy5, 1, 10);
+                if (_enemy5._approveRespawn == true)
+                {
+                    _scene.AddActor(_enemy5, 17, 10);
+                    return;
+                }
+                return;
+            }
+            else if (_enemy6._deadZombie == true)
+            {
+                _score += 1;
+                _scene.RemoveActor(_enemy6);
+                _enemy6._deadZombie = false;
+                _enemy6.RespawnZombie(_enemy6, 1, 13);
+                if (_enemy6._approveRespawn == true)
+                {
+                    _scene.AddActor(_enemy6, 1, 13);
+                    return;
+                }
+                return;
+            }
             Raylib.BeginDrawing();
             Raylib.ClearBackground(Color.BLACK);
             Console.Clear();
@@ -175,9 +267,10 @@ namespace MathForGames
         //Called when the game ends.
         public void End()
         {
-            if (_scenes[_currentSceneIndex].Started)
-                _scenes[_currentSceneIndex].End();
-
+            
+                if (_scenes[_currentSceneIndex].Started)
+                    _scenes[_currentSceneIndex].End();
+            
         }
 
         //Handles all of the main game logic including the main game loop.
@@ -191,19 +284,28 @@ namespace MathForGames
                 float deltaTime = Raylib.GetFrameTime();
                 Update(deltaTime);
                 Draw();
-                
+
                 if (_player._isDead == true)
                 {
-                    SetGameOver(true);
-                    break;
+                    
+                    Raylib.DrawText("You Died" + "\nYour score was: " + _score + "\nPress L to leave", 20, 20, 20, Color.RED);
+
+                    if (Game.GetKeyDown((int)KeyboardKey.KEY_L))
+                    {
+                        SetGameOver(true);
+                        break;
+                    }
                 }
                 
-                while (Console.KeyAvailable)
-                    Console.ReadKey(true);
 
+                    while (Console.KeyAvailable)
+                        Console.ReadKey(true);
+
+                
+
+                End();
             }
-
-            End();
+            
         }
     }
 }

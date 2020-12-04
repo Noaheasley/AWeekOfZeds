@@ -62,7 +62,7 @@ namespace MathForGames
             int yVelocity = -Convert.ToInt32(Game.GetKeyDown((int)KeyboardKey.KEY_W))
                 + Convert.ToInt32(Game.GetKeyDown((int)KeyboardKey.KEY_S));
 
-            if(Game.GetKeyDown((int)KeyboardKey.KEY_LEFT))
+            if(Game.GetKeyDown((int)KeyboardKey.KEY_LEFT) && !_isDead)
             {
                 Rotate(.5f);
 
@@ -72,7 +72,7 @@ namespace MathForGames
 
                 _angle = angle;
             }
-            if (Game.GetKeyDown((int)KeyboardKey.KEY_RIGHT))
+            if (Game.GetKeyDown((int)KeyboardKey.KEY_RIGHT) && !_isDead)
             {
                 Rotate(-.5f);
             }
@@ -86,12 +86,20 @@ namespace MathForGames
             }
 
 
-           
-            
-            
-            
 
-            Acceleration = new Vector2(xVelocity, yVelocity);
+
+
+
+            if (_isDead == false)
+            {
+                Acceleration = new Vector2(xVelocity, yVelocity);
+            }
+            else if(_isDead == true)
+            {
+                _coolingDown = true;
+                Acceleration = new Vector2(0, 0);
+                Velocity = new Vector2(0, 0);
+            }
             base.Update(deltaTime);
         }
         
