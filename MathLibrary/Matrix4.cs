@@ -7,7 +7,7 @@ namespace MathLibrary
     public class Matrix4
     {
         public float m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44;
-
+        //constructor for the Matrix4
         public Matrix4()
         {
             m11 = 1; m12 = 0; m13 = 0; m14 = 0;
@@ -27,7 +27,7 @@ namespace MathLibrary
             this.m31 = m31; this.m32 = m32; this.m33 = m33; this.m34 = m34;
             this.m41 = m41; this.m42 = m42; this.m43 = m43; this.m44 = m44;
         }
-
+        //sets an object to a certain rotation
         public static Matrix4 CreateRotation(float radians)
         {
             return new Matrix4
@@ -38,6 +38,7 @@ namespace MathLibrary
                     0, 0, 0, 1
                 );
         }
+        //moves an object to a certain position
         public static Matrix4 CreateTranslation(Vector3 position)
         {
             return new Matrix4
@@ -48,7 +49,7 @@ namespace MathLibrary
                 0, 0, 0, 1
             );
         }
-
+        //sets the rotation for X
         public static Matrix4 CreateRotationX(float radians)
         {
             return new Matrix4
@@ -59,7 +60,7 @@ namespace MathLibrary
                     0, 0, 0, 1
                 );
         }
-
+        //sets the rotation for Y
         public static Matrix4 CreateRotationY(float radians)
         {
             return new Matrix4
@@ -70,6 +71,7 @@ namespace MathLibrary
                     0, 0, 0, 1
                 );
         }
+        //sets the rotation for Z
         public static Matrix4 CreateRotationZ(float radians)
         {
             return new Matrix4
@@ -80,6 +82,7 @@ namespace MathLibrary
                     0, 0, 0, 1
                 );
         }
+        //adds the Matrix4
         public static Matrix4 operator +(Matrix4 lhs, Matrix4 rhs)
         {
             return new Matrix4
@@ -90,6 +93,7 @@ namespace MathLibrary
                    lhs.m41 + rhs.m41, lhs.m42 + rhs.m42, lhs.m43 + rhs.m43, lhs.m44 + rhs.m44
                 );
         }
+        //subtracts the Matrix4
         public static Matrix4 operator -(Matrix4 lhs, Matrix4 rhs)
         {
             return new Matrix4
@@ -100,6 +104,7 @@ namespace MathLibrary
                    lhs.m41 - rhs.m41, lhs.m42 - rhs.m42, lhs.m43 - rhs.m43, lhs.m44 - rhs.m44
                 );
         }
+        //multiplies the Matrix4
         public static Matrix4 operator *(Matrix4 lhs, Matrix4 rhs)
         {
             return new Matrix4

@@ -58,7 +58,7 @@ namespace MathLibrary
                 _w = value;
             }
         }
-
+        //constructor for Vector4
         public Vector4()
         {
             _x = 0;
@@ -75,7 +75,7 @@ namespace MathLibrary
             _w = w;
         }
 
-
+        //multiplies Vector4
         public static Vector4 operator *(Matrix4 lhs, Vector4 rhs)
         {
             return new Vector4(
@@ -85,11 +85,12 @@ namespace MathLibrary
                    lhs.m41 * rhs.X + lhs.m42 * rhs.Y + lhs.m43 * rhs.Z + lhs.m44 * rhs.W
                    );
         }
+        //returns the dot product
         public static float DotProduct(Vector4 lhs, Vector4 rhs)
         {
             return (lhs.X * rhs.X) + (lhs.Y * rhs.Y) + (lhs.Z * rhs.Z);
         }
-
+        //returns magnitude
         public float Magnitude
         {
             get
@@ -97,6 +98,7 @@ namespace MathLibrary
                 return (float)Math.Sqrt(X * X + Y * Y + Z * Z);
             }
         }
+        //return Normalize
         public Vector4 Normalized
         {
             get
@@ -117,7 +119,7 @@ namespace MathLibrary
 
             return vector / vector.Magnitude;
         }
-
+        //returns the cross product
         public static Vector4 CrossProduct(Vector4 lhs, Vector4 rhs)
         {
             return new Vector4(
@@ -127,16 +129,17 @@ namespace MathLibrary
                 0
                 );
         }
-
+        //adds the Vector4
         public static Vector4 operator +(Vector4 lhs, Vector4 rhs)
         {
             return new Vector4(lhs.X + rhs.X, lhs.Y + rhs.Y, lhs.Z + rhs.Z, lhs.W + rhs.W);
         }
-
+        //subtracts the Vector4
         public static Vector4 operator -(Vector4 lhs, Vector4 rhs)
         {
             return new Vector4(lhs.X - rhs.X, lhs.Y - rhs.Y, lhs.Z - rhs.Z, lhs.W - rhs.W);
         }
+        //multiplies Vector4
         public static Vector4 operator *(Vector4 lhs, float scalar)
         {
             return new Vector4(lhs.X * scalar, lhs.Y * scalar, lhs.Z * scalar, lhs.W * scalar);
@@ -145,6 +148,7 @@ namespace MathLibrary
         {
             return new Vector4(scalar * rhs.X, scalar * rhs.Y, scalar * rhs.Z, scalar * rhs.W);
         }
+        //divides Vector4
         public static Vector4 operator /(Vector4 lhs, float scalar)
         {
             return new Vector4(lhs.X / scalar, lhs.Y / scalar, lhs.Z / scalar, lhs.W / scalar);

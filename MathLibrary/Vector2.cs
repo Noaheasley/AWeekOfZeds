@@ -32,7 +32,7 @@ namespace MathLibrary
                 _y = value;
             }
         }
-
+        //constructor for Vector2
         public Vector2()
         {
             _x = 0;
@@ -44,6 +44,7 @@ namespace MathLibrary
             _x = x;
             _y = y;
         }
+        //finds the angle that an object is facing
         public static float FindAngle(Vector2 lhs, Vector2 rhs)
         {
             lhs = lhs.Normalized;
@@ -65,18 +66,19 @@ namespace MathLibrary
 
             return angle;
         }
-
+        //finds the distance of an object
         public static float Distance(Vector2 lhs, Vector2 rhs)
         {
             float XSqr = (lhs.X - rhs.X) * (lhs.X - rhs.X);
             float YSqr = (lhs.Y - rhs.Y) * (lhs.Y - rhs.Y);
             return (float)Math.Sqrt(XSqr + YSqr);
         }
+        //find the dot product
         public static float DotProduct(Vector2 lhs, Vector2 rhs)
         {
             return (lhs.X * rhs.X) + (lhs.Y * rhs.Y);
         }
-
+        //returns the magnitude
         public float Magnitude
         {
             get
@@ -84,6 +86,7 @@ namespace MathLibrary
                 return (float)Math.Sqrt(X * X + Y * Y);
             }
         }
+        //return Normalization
         public Vector2 Normalized
         {
             get
@@ -91,6 +94,7 @@ namespace MathLibrary
                 return Normalize(this);
             }
         }
+        //returns the distance
         public float DRange
         {
             get
@@ -112,20 +116,22 @@ namespace MathLibrary
 
             return vector / vector.Magnitude;
         }
-
+        //adds Vector2
         public static Vector2 operator +(Vector2 lhs, Vector2 rhs)
         {
             return new Vector2(lhs.X + rhs.X, lhs.Y + rhs.Y);
         }
-
+        //subtracts Vector2
         public static Vector2 operator -(Vector2 lhs, Vector2 rhs)
         {
             return new Vector2(lhs.X - rhs.X, lhs.Y - rhs.Y);
         }
+        //multiply Vector2
         public static Vector2 operator *(Vector2 lhs, float scalar)
         {
             return new Vector2(lhs.X * scalar, lhs.Y * scalar);
         }
+        //divide Vector2
         public static Vector2 operator /(Vector2 lhs, float scalar)
         {
             return new Vector2(lhs.X / scalar, lhs.Y / scalar);

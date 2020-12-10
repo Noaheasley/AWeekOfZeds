@@ -7,7 +7,7 @@ namespace MathLibrary
     public class Matrix3
     {
         public float m11, m12, m13, m21, m22, m23, m31, m32, m33;
-
+        //sets up a constructor for matrix3
         public Matrix3()
         {
             m11 = 1; m12 = 0; m13 = 0;
@@ -23,7 +23,7 @@ namespace MathLibrary
             this.m21 = m21; this.m22 = m22; this.m23 = m23;
             this.m31 = m31; this.m32 = m32; this.m33 = m33;
         }
-
+        //allows objects to rotate
         public static Matrix3 CreateRotation(float radians)
         {
             return new Matrix3
@@ -33,7 +33,7 @@ namespace MathLibrary
                     0, 0, 1
                 );
         }
-
+        //moves an object to a certain position 
         public static Matrix3 CreateTranslation(Vector2 position)
         {
             return new Matrix3
@@ -43,6 +43,7 @@ namespace MathLibrary
                 0, 0, 1
             );
         }
+        //scales objects width and height
         public static Matrix3 CreateScale(Vector2 scale)
         {
             return new Matrix3
@@ -52,7 +53,7 @@ namespace MathLibrary
                 0, 0, 1
             );
         }
-
+        //adds Matrix3
         public static Matrix3 operator +(Matrix3 lhs, Matrix3 rhs)
         {
             return new Matrix3
@@ -62,6 +63,7 @@ namespace MathLibrary
                    lhs.m31 + rhs.m31, lhs.m32 + rhs.m32, lhs.m33 + rhs.m33
                 );
         }
+        //subtracts Matrix3
         public static Matrix3 operator -(Matrix3 lhs, Matrix3 rhs)
         {
             return new Matrix3
@@ -71,7 +73,7 @@ namespace MathLibrary
                    lhs.m31 - rhs.m31, lhs.m32 - rhs.m32, lhs.m33 - rhs.m33
                 );
         }
-
+        //Multiplies Matrix3
         public static Matrix3 operator *(Matrix3 lhs, Matrix3 rhs)
         {
             return new Matrix3
