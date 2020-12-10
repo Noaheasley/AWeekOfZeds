@@ -568,3 +568,98 @@ enemies will track and chase the player till either they die or the player dies
                    lhs.m41 * rhs.m13 + lhs.m42 * rhs.m23 + lhs.m43 * rhs.m33 + lhs.m44 * rhs.m43,
                    ROW 4, COLUMN 4
                    lhs.m41 * rhs.m14 + lhs.m42 * rhs.m24 + lhs.m43 * rhs.m34 + lhs.m44 * rhs.m44
+                   
+
+# Unit Test
+        Matrix3 Transpose(Matrix3 mat)
+        returns a new matrix3
+        
+        Matrix4 Transpose(Matrix4 mat)
+        returns a new matrix4
+        
+        bool compare(float a, float b, float tolerance = DEFAULT_TOLERANCE)
+        compares a and b
+        
+        bool compare(Vector3 a, Vector3 b, float tolerance = DEFAULT_TOLERANCE)
+        compares vector3 a and b
+        
+        bool compare(Vector4 a, Vector4 b, float tolerance = DEFAULT_TOLERANCE)
+        compare Vector4 a and b
+        
+        bool compare(Matrix3 a, Matrix3 b, float tolerance = DEFAULT_TOLERANCE)
+        compares Matrix3 a and b
+        
+        bool compare(Matrix4 a, Matrix4 b, float tolerance = DEFAULT_TOLERANCE)
+        compares Matrix4 a and b
+        
+        public void Vector3Addition()
+        adds Vector3s
+         
+        public void Vector4Addition()
+        adds Vector4s 
+        
+        public void Vector3Subtraction()
+        subtracts Vector3s
+        
+        public void Vector4Subtraction()
+        subtracts Vector4
+        
+        public void Vector3PostScale()
+        gets the scale of a Vector3
+        
+        public void Vector4PostScale()
+        gets the scale of a Vector4
+         
+        public void Vector3Dot()
+        gets the Dot product of a vector3
+        
+        public void Vector4Dot()
+        gets the Dot product of a vector4
+        
+        public void Vector3Cross()
+        gets the cross product of a Vector3
+        
+        public void Vector4Cross()
+        gets the cross product of a Vector4
+        
+        public void Vector3Magnitude()
+        gets the magnitude of a Vector3
+        
+        public void Vector4Magnitude()
+        gets the magnitude of a Vector4
+        
+        public void Vector3Normalise()
+        Normalizes a Vector3
+        
+        public void Vector4Normalise()
+        Normalizes a Vector4
+        
+        public void Matrix4SetRotateX()
+        sets the rotation of X in a Matrix4
+        
+        public void Matrix4SetRotateY()
+        sets the rotation of Y in a Matrix4
+        
+        public void Matrix3SetRotate()
+        sets the rotate of a Matrix3
+        
+        public void Matrix4SetRotateZ()
+        sets the Z axis of a Matrix4
+        
+        public void Vector3MatrixTransform2()
+        sets a Vector3 transform
+        
+        public void Vector4MatrixTransform()
+        sets a Vector4 transform
+        
+        public void Matrix3Multiply()
+        multipies a Matrix3
+        
+        public void Matrix4Multiply()
+        multiplies a Matrix4
+        
+        public void Vector3MatrixTranslation()
+        sets the translation of a Vector3
+        
+        public void Vector4MatrixTranslation()
+        sets the translation of a Vector4
